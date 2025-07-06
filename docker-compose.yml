@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: ankane/pgvector
+    environment:
+      POSTGRES_USER: aiadmin
+      POSTGRES_PASSWORD: aipassword
+      POSTGRES_DB: aihelpdesk
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: postgres
+      DB_USER: aiadmin
+      DB_PASSWORD: aipassword
+      DB_NAME: aihelpdesk
+      DB_PORT: 5432
+      NODE_ENV: development
+    depends_on:
+      - postgres
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./backend:/usr/src/app
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/usr/src/app
+    depends_on:
+      - backend
+volumes:
+  pgdata:
