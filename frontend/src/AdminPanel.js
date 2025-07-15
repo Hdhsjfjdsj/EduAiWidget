@@ -145,7 +145,7 @@ function AdminPanel() {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>AI Helpdesk Admin</Typography>
           <Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogout}>Logout</Button>

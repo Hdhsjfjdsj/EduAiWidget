@@ -1,4 +1,4 @@
-const { ChatLog, VectorEntry } = require('../models');
+const { ChatLog, VectorEntry, ChatSession } = require('../models');
 const { askLLM } = require('../utils/llmClient');
 const { getEmbeddingWithFallback } = require('../utils/vectorizer');
 const fs = require('fs');
@@ -98,4 +98,30 @@ exports.clearHistory = async (req, res) => {
   const userId = req.user.id;
   await ChatLog.destroy({ where: { userId } });
   res.json({ message: 'Chat history cleared' });
+};
+
+// --- Chat Session Management ---
+exports.createSession = async (req, res) => {
+  const userId = req.user.id;
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ message: 'Session name required' });
+  const session = await ChatSession.create({ userId, name });
+  res.status(201).json(session);
+};
+
+exports.listSessions = async (req, res) => {
+  const userId = req.user.id;
+  const sessions = await ChatSession.findAll({ where: { userId }, order: [['createdAt', 'DESC']] });
+  res.json(sessions);
+};
+
+exports.deleteSession = async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  const session = await ChatSession.findOne({ where: { id, userId } });
+  if (!session) return res.status(404).json({ message: 'Session not found' });
+  // Delete all chat logs for this session
+  await ChatLog.destroy({ where: { sessionId: id, userId } });
+  await session.destroy();
+  res.json({ message: 'Session deleted' });
 };
