@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import ChatWidget from './ChatWidget';
-import AdminPanel from './AdminPanel';
+import ChatWidget from '../components/ChatWidget/ChatWidget';
+import AdminPanel from '../components/AdminPanel/AdminPanel';
 
 const theme = createTheme({
   palette: {
