@@ -46,8 +46,8 @@ exports.chat = async (req, res) => {
   }
   if (!results.length || results[0].distance > 0.7) {
     // Out-of-scope
-    const response = config.rejectionMessage || 'Sorry, I can only answer questions related to this domain.';
-    console.log('No relevant context found or distance too high. Returning rejection message.');
+    const response = (config.rejectionMessage || 'Sorry, I can only answer questions related to this domain.').trim();
+    console.log('No relevant context found or distance too high. Returning ONLY rejection message.');
     await ChatLog.create({ userId, message, response, modelUsed: model, sessionId });
     return res.json({ response, relatedQuestions: [] });
   }
@@ -69,7 +69,10 @@ exports.chat = async (req, res) => {
   }
   try {
     const llmResult = await askLLM(prompt, preferredModels);
-    response = llmResult.content;
+    
+    let rawResponse = llmResult.content.trim();
+    rawResponse = rawResponse.replace(/^(According to the context|Based on the context|From the context|According to context|Based on context|From context|According to the text)[,:\s-]+/i, '');
+    response = rawResponse;
     modelUsed = llmResult.modelUsed;
     console.log('LLM Response:', response);
   } catch (err) {
