@@ -1,5 +1,5 @@
 {
-  "rejectionMessage": "Sorry, this is beyond my scope",
+  "rejectionMessage": "Sorry, this is beyond my scope, ask something else please",
   "model": [
     "gemini",
     "openai",

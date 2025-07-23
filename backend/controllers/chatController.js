@@ -72,7 +72,13 @@ exports.chat = async (req, res) => {
     
     let rawResponse = llmResult.content.trim();
     rawResponse = rawResponse.replace(/^(According to the context|Based on the context|From the context|According to context|Based on context|From context|According to the text)[,:\s-]+/i, '');
+    const rejection = (config.rejectionMessage || 'Sorry, I can only answer questions related to this domain.').trim();
+    const index = rawResponse.indexOf(rejection);
+    if (index !== -1) {
+      response = rejection;
+    } else {
     response = rawResponse;
+    }
     modelUsed = llmResult.modelUsed;
     console.log('LLM Response:', response);
   } catch (err) {
