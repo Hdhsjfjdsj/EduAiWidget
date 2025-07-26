@@ -5,6 +5,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import ChatWidget from '../components/ChatWidget/ChatWidget';
 import AdminPanel from '../components/AdminPanel/AdminPanel';
 
+// Minimal widget-only component for iframe embedding
+function ChatWidgetOnly() {
+  return <ChatWidget />;
+}
+
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -20,6 +25,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/widget" element={<ChatWidgetOnly />} />
           <Route path="/*" element={<ChatWidget />} />
         </Routes>
       </Router>

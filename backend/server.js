@@ -35,20 +35,25 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 // Sequelize setup
 const sequelize = new Sequelize(
-  process.env.DB_NAME || 'aihelpdesk',
-  process.env.DB_USER || 'aiadmin',
-  process.env.DB_PASSWORD || 'aipassword',
+  process.env.DATABASE_URL || 
+  `postgresql://${process.env.DB_USER || 'aiadmin'}:${process.env.DB_PASSWORD || 'aipassword'}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'aihelpdesk'}`,
   {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     logging: false,
+    dialectOptions: process.env.DATABASE_URL ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    } : {}
   }
 );
 
 // Test DB connection
 sequelize.authenticate()
   .then(() => console.log('Database connected'))
+  .then(() => sequelize.sync({ alter: true }))
+  .then(() => console.log('Database synchronized'))
   .catch(err => console.error('Database connection error:', err));
 
 // Import routes
