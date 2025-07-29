@@ -1,11 +1,6 @@
 {
   "rejectionMessage": "Sorry, this is beyond my scope, ask something else please",
-  "model": [
-    "gemini",
-    "openai",
-    "deepseek",
-    "ollama"
-  ],
+  "model": "",
   "embeddingProviders": [
     "gemini",
     "openai"

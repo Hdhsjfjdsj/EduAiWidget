@@ -221,7 +221,7 @@ function AdminPanel() {
         <DialogTitle>Edit Bot Config</DialogTitle>
         <DialogContent>
           <TextField label="Rejection Message" fullWidth margin="normal" value={config.rejectionMessage} onChange={e => setConfig({ ...config, rejectionMessage: e.target.value })} />
-          <TextField label="Model" fullWidth margin="normal" value={config.model} onChange={e => setConfig({ ...config, model: e.target.value })} helperText="openai, openrouter, gemini, deepseek" />
+          <TextField label="Model" fullWidth margin="normal" value={config.model} onChange={e => setConfig({ ...config, model: e.target.value })} helperText="openai, openrouter, gemini, deepseek,ollama" />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfigDialog(false)}>Cancel</Button>

@@ -71,7 +71,7 @@ exports.chat = async (req, res) => {
     const llmResult = await askLLM(prompt, preferredModels);
     
     let rawResponse = llmResult.content.trim();
-    rawResponse = rawResponse.replace(/^(According to the context|Based on the context|From the context|According to context|Based on context|From context|According to the text)[,:\s-]+/i, '');
+    rawResponse = rawResponse.replace(/^(According to the context|Based on the context|From the context|According to context|Based on context|From context|According to the text|As per the context|As per context|Per the context|Per context|According to the provided context|Based on the provided context|From the provided context|According to provided context|Based on provided context|From provided context)[,:\s-]+/i, '');
     const rejection = (config.rejectionMessage || 'Sorry, I can only answer questions related to this domain.').trim();
     const index = rawResponse.indexOf(rejection);
     if (index !== -1) {
