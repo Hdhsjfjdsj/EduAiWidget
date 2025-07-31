@@ -200,7 +200,10 @@ function AdminPanel() {
                 <List>
                   {logs.map(log => (
                     <ListItem key={log.id}>
-                      <ListItemText primary={log.message} secondary={`User: ${log.userId || 'anon'} | Model: ${log.modelUsed} | ${new Date(log.createdAt).toLocaleString()}`} />
+                      <ListItemText
+                        primary={log.message}
+                        secondary={`User: ${log.User?.name || 'anon'} | Model: ${log.modelUsed} | ${new Date(log.createdAt).toLocaleString()}`}
+                      />
                     </ListItem>
                   ))}
                 </List>

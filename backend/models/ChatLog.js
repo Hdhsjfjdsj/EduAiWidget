@@ -28,5 +28,8 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
   });
+  ChatLog.associate = (models) => {
+    ChatLog.belongsTo(models.User, { foreignKey: 'userId' });
+  };
   return ChatLog;
 }; 

@@ -9,7 +9,15 @@ exports.listUsers = async (req, res) => {
 };
 
 exports.listChatLogs = async (req, res) => {
-  const logs = await ChatLog.findAll({ order: [['createdAt', 'DESC']] });
+  const logs = await ChatLog.findAll({
+    order: [['createdAt', 'DESC']],
+    include: [
+      {
+        model: User,
+        attributes: ['name'],
+      },
+    ],
+  });
   res.json(logs);
 };
 
